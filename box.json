@@ -1,7 +1,7 @@
 {
     "name":"REST HMVC Template",
-    "version":"0.0.0",
-    "location":"https://github.com/coldbox-templates/rest/archive/v1.0.0.zip",
+    "version":"1.0.0",
+    "location":"https://github.com/coldbox-templates/rest-hmvc/archive/v1.0.0.zip",
     "author":"You",
     "slug":"cbtemplate-rest-hmvc",
     "createPackageDirectory":false,

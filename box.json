@@ -1,0 +1,36 @@
+{
+    "name":"REST HMVC Template",
+    "version":"0.0.0",
+    "location":"https://github.com/coldbox-templates/rest/archive/v1.0.0.zip",
+    "author":"You",
+    "slug":"cbtemplate-rest-hmvc",
+    "createPackageDirectory":false,
+    "type":"mvc",
+    "homepage":"https://github.com/coldbox-templates/rest-hmvc",
+    "documentation":"https://github.com/coldbox-templates/rest-hmvc",
+    "repository":{
+        "type":"git",
+        "url":"https://github.com/coldbox-templates/rest-hmvc"
+    },
+    "bugs":"https://github.com/coldbox-templates/rest-hmvc/issues",
+    "shortDescription":"A modular API RESTFul template",
+    "contributors":[],
+    "ignore":[],
+    "devDependencies":{
+        "relax":"^3.0.2"
+    },
+    "installPaths":{
+        "coldbox":"coldbox",
+        "testbox":"testbox",
+        "relax":"modules/relax/",
+        "cbswagger":"modules/cbswagger/"
+    },
+    "dependencies":{
+        "coldbox":"^5.0.0-rc.1",
+        "cbswagger":"^1.2.1"
+    },
+    "scripts":{
+        "postVersion":"package set location='https://github.com/coldbox-templates/rest-hmvc/archive/v`package version`.zip'",
+        "postPublish":"!git push --follow-tags"
+    }
+}

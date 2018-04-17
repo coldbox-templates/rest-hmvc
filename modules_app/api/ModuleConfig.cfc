@@ -54,6 +54,8 @@ component {
 	this.layoutParentLookup = true;
 	// Module Entry Point
 	this.entryPoint			= "api";
+	// Inheritable entry point.
+	this.inheritEntryPoint 	= true;
 	// Model Namespace
 	this.modelNamespace		= "api";
 	// CF Mapping
@@ -80,12 +82,6 @@ component {
 			defaultLayout = ""
 		};
 
-		// SES Routes
-		routes = [
-			// Convention Route
-			{ pattern="/:handler/:action?" }
-		];
-
 		// Custom Declared Points
 		interceptorSettings = {
 			customInterceptionPoints = ""
@@ -94,9 +90,6 @@ component {
 		// Custom Declared Interceptors
 		interceptors = [
 		];
-
-		// Binder Mappings
-		// binder.map("Alias").to("#moduleMapping#.model.MyService");
 
 	}
 

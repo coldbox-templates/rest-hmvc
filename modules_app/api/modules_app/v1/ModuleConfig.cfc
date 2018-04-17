@@ -83,12 +83,9 @@ component {
 		};
 
 		// SES Routes
-		routes = [
-			// Module Entry Point
-			{ pattern="/", handler="echo", action="index" },
-			// Convention Route
-			{ pattern="/:handler/:action?" }
-		];
+		router
+			.route( "/", "echo.index" )
+			.route( "/:handler/:action" ).toEnd();
 
 		// Custom Declared Points
 		interceptorSettings = {

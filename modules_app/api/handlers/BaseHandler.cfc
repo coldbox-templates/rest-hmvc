@@ -105,38 +105,32 @@ component extends="coldbox.system.EventHandler"{
 		// end timer
 		prc.response.setResponseTime( getTickCount() - stime );
 
-		// If results detected, just return them, controllers requesting to return results
-		if( !isNull( actionResults ) ){
-			return actionResults;
-		}
-
-		// Verify if controllers doing renderdata overrides? If so, just short-circuit out.
-		if( !structIsEmpty( event.getRenderData() ) ){
-			return;
-		}
-		
-		// Get response data
-		var responseData = prc.response.getDataPacket();
-		// If we have an error flag, render our messages and omit any marshalled data
-		if( prc.response.getError() ){
-			responseData = prc.response.getDataPacket( reset=true );
-		}
-
 		// Did the controllers set a view to be rendered? If not use renderdata, else just delegate to view.
-		if( !len( event.getCurrentView() ) ){
-
-			// Magical Response renderings
-			event.renderData(
-				type		= prc.response.getFormat(),
-				data 		= prc.response.getDataPacket(),
-				contentType = prc.response.getContentType(),
-				statusCode 	= prc.response.getStatusCode(),
-				statusText 	= prc.response.getStatusText(),
-				location 	= prc.response.getLocation(),
-				isBinary 	= prc.response.getBinary()
+		if( 
+			!len( event.getCurrentView() ) 
+			OR
+			structIsEmpty( event.getRenderData() )
+		){
+			// Get response data
+			var responseData = prc.response.getDataPacket();
+			// If we have an error flag, render our messages and omit any marshalled data
+			if( prc.response.getError() ){
+				responseData = prc.response.getDataPacket( reset=true );
+			}
+			// Magical renderings
+			event.renderData( 
+				type			= prc.response.getFormat(),
+				data 			= responseData,
+				contentType 	= prc.response.getContentType(),
+				statusCode 		= prc.response.getStatusCode(),
+				statusText 		= prc.response.getStatusText(),
+				location 		= prc.response.getLocation(),
+				isBinary 		= prc.response.getBinary(),
+				jsonCallback 	= prc.response.getJsonCallback(),
+				jsonQueryFormat	= prc.response.getJsonQueryFormat()
 			);
 		}
-
+		 
 		// Global Response Headers
 		prc.response.addHeader( "x-response-time", prc.response.getResponseTime() )
 				.addHeader( "x-cached-response", prc.response.getCachedResponse() );
@@ -144,6 +138,11 @@ component extends="coldbox.system.EventHandler"{
 		// Response Headers
 		for( var thisHeader in prc.response.getHeaders() ){
 			event.setHTTPHeader( name=thisHeader.name, value=thisHeader.value );
+		}
+
+		// If results detected, just return them, controllers requesting to return results
+		if( !isNull( actionResults ) ){
+			return actionResults;
 		}
 	}
 
@@ -155,7 +154,7 @@ component extends="coldbox.system.EventHandler"{
 		log.error( "Error in base handler (#arguments.faultAction#): #arguments.exception.message# #arguments.exception.detail#", arguments.exception );
 		
 		// Verify response exists, else create one
-		if( !structKeyExists( prc, "Response@api" ) ){ 
+		if( !structKeyExists( prc, "response" ) ){ 
 			prc.response = getModel( "Response@api" ); 
 		}
 
@@ -242,7 +241,7 @@ component extends="coldbox.system.EventHandler"{
 	**/
 	private function routeNotFound( event, rc, prc ){
 		
-		if( !structKeyExists( prc, "Response@api" ) ){
+		if( !structKeyExists( prc, "response" ) ){
 			prc.response = getModel( "Response@api" );
 		}
 
@@ -279,7 +278,7 @@ component extends="coldbox.system.EventHandler"{
 		prc 	= getRequestCollection( private=true ),
 		abort 	= false 
 	){
-		if( !structKeyExists( prc, "Response@api" ) ){
+		if( !structKeyExists( prc, "response" ) ){
 			prc.response = getModel( "Response@api" );
 		}
 
@@ -300,7 +299,7 @@ component extends="coldbox.system.EventHandler"{
 		prc 	= getRequestCollection( private=true ),
 		abort 	= false 
 	){
-		if( !structKeyExists( prc, "Response@api" ) ){
+		if( !structKeyExists( prc, "response" ) ){
 			prc.response = getModel( "Response@api" );
 		}
 

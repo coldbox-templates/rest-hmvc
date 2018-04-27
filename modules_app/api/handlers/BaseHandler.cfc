@@ -51,7 +51,7 @@ component extends="coldbox.system.EventHandler"{
 	this.aroundHandler_only 	= "";
 	this.aroundHandler_except 	= "";		
 
-	// REST Allowed HTTP Methods Ex: this.allowedMethods = {delete='#METHODS.POST#,#METHODS.DELETE#',index='#METHOD.GET#'}
+	// REST Allowed HTTP Methods Ex: this.allowedMethods = {delete='#METHODS.POST#,#METHODS.DELETE#',index='#METTHOD.GET#'}
 	this.allowedMethods = {
 		"index" 	: METHODS.GET,
 		"get" 		: METHODS.GET,
@@ -69,7 +69,7 @@ component extends="coldbox.system.EventHandler"{
 			// start a resource timer
 			var stime = getTickCount();
 			// prepare our response object
-			prc.response = getModel( "Response@api" );
+			prc.response = getModel( "Response" );
 			// prepare argument execution
 			var args = { event = arguments.event, rc = arguments.rc, prc = arguments.prc };
 			structAppend( args, arguments.eventArguments );
@@ -107,9 +107,12 @@ component extends="coldbox.system.EventHandler"{
 
 		// Did the controllers set a view to be rendered? If not use renderdata, else just delegate to view.
 		if( 
-			!len( event.getCurrentView() ) 
-			OR
-			structIsEmpty( event.getRenderData() )
+			isNull( actionResults )
+			AND (
+				!len( event.getCurrentView() ) 
+				OR
+				structIsEmpty( event.getRenderData() )
+			)
 		){
 			// Get response data
 			var responseData = prc.response.getDataPacket();
@@ -139,7 +142,7 @@ component extends="coldbox.system.EventHandler"{
 		for( var thisHeader in prc.response.getHeaders() ){
 			event.setHTTPHeader( name=thisHeader.name, value=thisHeader.value );
 		}
-
+		
 		// If results detected, just return them, controllers requesting to return results
 		if( !isNull( actionResults ) ){
 			return actionResults;
@@ -154,8 +157,8 @@ component extends="coldbox.system.EventHandler"{
 		log.error( "Error in base handler (#arguments.faultAction#): #arguments.exception.message# #arguments.exception.detail#", arguments.exception );
 		
 		// Verify response exists, else create one
-		if( !structKeyExists( prc, "response" ) ){ 
-			prc.response = getModel( "Response@api" ); 
+		if( !structKeyExists( prc, "Response" ) ){ 
+			prc.response = getModel( "Response" ); 
 		}
 
 		// Setup General Error Response
@@ -193,7 +196,7 @@ component extends="coldbox.system.EventHandler"{
 		// Log Locally
 		log.warn( "InvalidHTTPMethod Execution of (#arguments.faultAction#): #event.getHTTPMethod()#", getHTTPRequestData() );
 		// Setup Response
-		prc.response = getModel( "Response@api" )
+		prc.response = getModel( "Response" )
 			.setError( true )
 			.addMessage( "InvalidHTTPMethod Execution of (#arguments.faultAction#): #event.getHTTPMethod()#" )
 			.setStatusCode( STATUS.NOT_ALLOWED )
@@ -217,7 +220,7 @@ component extends="coldbox.system.EventHandler"{
 		// Log Locally
 		log.warn( "Invalid HTTP Method Execution of (#arguments.missingAction#): #event.getHTTPMethod()#", getHTTPRequestData() );
 		// Setup Response
-		prc.response = getModel( "Response@api" )
+		prc.response = getModel( "Response" )
 			.setError( true )
 			.addMessage( "Action '#arguments.missingAction#' could not be found" )
 			.setStatusCode( STATUS.NOT_ALLOWED )
@@ -241,8 +244,8 @@ component extends="coldbox.system.EventHandler"{
 	**/
 	private function routeNotFound( event, rc, prc ){
 		
-		if( !structKeyExists( prc, "response" ) ){
-			prc.response = getModel( "Response@api" );
+		if( !structKeyExists( prc, "Response" ) ){
+			prc.response = getModel( "Response" );
 		}
 
 		prc.response.setError( true )
@@ -259,8 +262,8 @@ component extends="coldbox.system.EventHandler"{
 		rc 		= getRequestCollection(),
 		prc 	= getRequestCollection( private=true ) 
 	){
-		if( !structKeyExists( prc, "Response@api" ) ){
-			prc.response = getModel( "Response@api" );
+		if( !structKeyExists( prc, "Response" ) ){
+			prc.response = getModel( "Response" );
 		}
 
 		prc.response.setError( true )
@@ -278,8 +281,8 @@ component extends="coldbox.system.EventHandler"{
 		prc 	= getRequestCollection( private=true ),
 		abort 	= false 
 	){
-		if( !structKeyExists( prc, "response" ) ){
-			prc.response = getModel( "Response@api" );
+		if( !structKeyExists( prc, "Response" ) ){
+			prc.response = getModel( "Response" );
 		}
 
 		log.warn( "Invalid Authentication", getHTTPRequestData() );
@@ -299,8 +302,8 @@ component extends="coldbox.system.EventHandler"{
 		prc 	= getRequestCollection( private=true ),
 		abort 	= false 
 	){
-		if( !structKeyExists( prc, "response" ) ){
-			prc.response = getModel( "Response@api" );
+		if( !structKeyExists( prc, "Response" ) ){
+			prc.response = getModel( "Response" );
 		}
 
 		log.warn( "Authorization Failure", getHTTPRequestData() );

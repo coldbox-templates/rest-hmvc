@@ -85,7 +85,7 @@ component {
 		// SES Routes
 		router
 			.route( "/", "echo.index" )
-			.route( "/:handler/:action" ).toEnd();
+			.route( "/:handler/:action" ).end();
 
 		// Custom Declared Points
 		interceptorSettings = {

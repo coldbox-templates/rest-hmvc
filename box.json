@@ -17,13 +17,14 @@
     "contributors":[],
     "ignore":[],
     "devDependencies":{
-        "relax":"^3.0.2"
+        "relax":"^3.0.2",
+        "testbox":"^2.8.0"
     },
     "installPaths":{
         "coldbox":"coldbox",
-        "testbox":"testbox",
         "relax":"modules/relax/",
-        "cbswagger":"modules/cbswagger/"
+        "cbswagger":"modules/cbswagger/",
+        "testbox":"testbox"
     },
     "dependencies":{
         "coldbox":"^5.0.0",

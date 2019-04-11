@@ -59,16 +59,14 @@ component extends="coldbox.system.testing.BaseTestCase" appMapping="/root"{
 			});
 
 			it( "can handle an echo", function(){
-				prepareMock( getRequestContext() ).$( "getHTTPMethod", "GET" );
-				var event 		= execute( route="/api/v1/echo/index" );
+				var event 		= this.request( "/api/v1/echo/index" );
 				var response 	= event.getPrivateValue( "response" );
 				expect(	response.getError() ).toBeFalse();
 				expect(	response.getData() ).toBe( "Welcome to my ColdBox RESTFul Service" );
 			});
 
 			it( "can handle missing actions", function(){
-				prepareMock( getRequestContext() ).$( "getHTTPMethod", "GET" );
-				var event 		= execute( route="/api/v1/echo/bogus" );
+				var event 		= this.request( "/api/v1/echo/bogus" );
 				var response 	= event.getPrivateValue( "response" );
 				expect(	response.getError() ).tobeTrue();
 				expect(	response.getStatusCode() ).toBe( 405 );

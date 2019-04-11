@@ -82,10 +82,7 @@ component {
 			defaultLayout = ""
 		};
 
-		// SES Routes
-		router
-			.route( "/", "echo.index" )
-			.route( "/:handler/:action" ).end();
+		// SES Routes: config/Router.cfc
 
 		// Custom Declared Points
 		interceptorSettings = {

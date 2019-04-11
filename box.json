@@ -17,18 +17,16 @@
     "contributors":[],
     "ignore":[],
     "devDependencies":{
-        "relax":"^3.0.2",
+        "relax":"^3.1.0",
         "testbox":"^2.8.0"
     },
     "installPaths":{
         "coldbox":"coldbox",
         "relax":"modules/relax/",
-        "cbswagger":"modules/cbswagger/",
         "testbox":"testbox"
     },
     "dependencies":{
-        "coldbox":"^5.0.0",
-        "cbswagger":"^1.2.1"
+        "coldbox":"^5.0.0"
     },
     "scripts":{
         "postVersion":"package set location='https://github.com/coldbox-templates/rest-hmvc/archive/v`package version`.zip'",

@@ -74,7 +74,7 @@ component extends="coldbox.system.EventHandler"{
 			var args = { event = arguments.event, rc = arguments.rc, prc = arguments.prc };
 			structAppend( args, arguments.eventArguments );
 			// Incoming Format Detection
-			if( structKeyExists( rc, "format") ){
+			if( !isNull( rc.format ) ){
 				prc.response.setFormat( rc.format );
 			}
 			// Execute action
@@ -84,8 +84,8 @@ component extends="coldbox.system.EventHandler"{
 			log.error( 
 				"Error calling #event.getCurrentEvent()#: #e.message# #e.detail#", 
 				{
-					"stacktrace" : e.stacktrace,
-					"httpData" : getHTTPRequestData()
+					"stack" 	: e.stacktrace,
+					"httpData" 	: getHTTPRequestData()
 				} 
 			);
 			
@@ -95,7 +95,8 @@ component extends="coldbox.system.EventHandler"{
 				.addMessage( "General application error: #e.message#" )
 				.setStatusCode( STATUS.INTERNAL_ERROR )
 				.setStatusText( "General application error" );
-			// Development additions
+			
+				// Development additions
 			if( getSetting( "environment" ) eq "development" ){
 				prc.response.addMessage( "Detail: #e.detail#" )
 					.addMessage( "StackTrace: #e.stacktrace#" );
@@ -113,13 +114,12 @@ component extends="coldbox.system.EventHandler"{
 		prc.response.setResponseTime( getTickCount() - stime );
 
 		// Did the controllers set a view to be rendered? If not use renderdata, else just delegate to view.
-		if( 
+		if(
 			isNull( actionResults )
-			AND (
-				!len( event.getCurrentView() ) 
-				OR
-				structIsEmpty( event.getRenderData() )
-			)
+			AND
+			!event.getCurrentView().len()
+			AND
+			event.getRenderData().isEmpty()
 		){
 			// Get response data
 			var responseData = prc.response.getDataPacket();
@@ -164,7 +164,7 @@ component extends="coldbox.system.EventHandler"{
 		log.error( 
 			"Error in base handler (#arguments.faultAction#): #arguments.exception.message# #arguments.exception.detail#", 
 			{
-				"stacktrace" : exception.stacktrace,
+				"stack" : exception.stacktrace,
 				"httpData" : getHTTPRequestData()
 			} 
 		);

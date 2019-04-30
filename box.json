@@ -18,7 +18,7 @@
     "ignore":[],
     "devDependencies":{
         "relax":"^3.1.0",
-        "testbox":"^2.8.0"
+        "testbox":"^3.0.0"
     },
     "installPaths":{
         "coldbox":"coldbox",

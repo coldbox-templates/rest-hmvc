@@ -22,7 +22,7 @@ component extends="coldbox.system.EventHandler"{
 		"PUT" 		: "PUT",
 		"DELETE" 	: "DELETE"
 	};
-	
+
 	// HTTP STATUS CODES
 	STATUS = {
 		"CREATED" 				: 201,
@@ -49,7 +49,7 @@ component extends="coldbox.system.EventHandler"{
 	this.posthandler_only 		= "";
 	this.posthandler_except 	= "";
 	this.aroundHandler_only 	= "";
-	this.aroundHandler_except 	= "";		
+	this.aroundHandler_except 	= "";
 
 	// REST Allowed HTTP Methods Ex: this.allowedMethods = {delete='#METHODS.POST#,#METHODS.DELETE#',index='#METTHOD.GET#'}
 	this.allowedMethods = {
@@ -60,11 +60,17 @@ component extends="coldbox.system.EventHandler"{
 		"update" 	: METHODS.PUT & "," & METHODS.PATCH,
 		"delete" 	: METHODS.DELETE
 	};
-	
+
 	/**
 	* Around handler for all actions it inherits
 	*/
-	function aroundHandler( event, rc, prc, targetAction, eventArguments ){
+	function aroundHandler(
+		event,
+		rc,
+		prc,
+		targetAction,
+		eventArguments
+	){
 		try{
 			// start a resource timer
 			var stime = getTickCount();
@@ -79,30 +85,39 @@ component extends="coldbox.system.EventHandler"{
 			}
 			// Execute action
 			var actionResults = arguments.targetAction( argumentCollection=args );
-		} catch( Any e ){
+		}
+		// Auth Issues
+		catch( "InvalidCredentials" e ){
+			this.onAuthenticationFailure( argumentCollection=arguments );
+		}
+		// Validation Exceptions
+		catch( "ValidationException" e ){
+			arguments.exception = e;
+			this.onValidationException( argumentCollection=arguments );
+		}
+		catch( Any e ){
 			// Log Locally
-			log.error( 
-				"Error calling #event.getCurrentEvent()#: #e.message# #e.detail#", 
+			log.error(
+				"Error calling #event.getCurrentEvent()#: #e.message# #e.detail#",
 				{
-					"stack" 	: e.stacktrace,
-					"httpData" 	: getHTTPRequestData()
-				} 
+					"_stacktrace" : e.stacktrace,
+					"httpData" : getHTTPRequestData()
+				}
 			);
-			
 			// Setup General Error Response
 			prc.response
 				.setError( true )
 				.addMessage( "General application error: #e.message#" )
 				.setStatusCode( STATUS.INTERNAL_ERROR )
 				.setStatusText( "General application error" );
-			
-				// Development additions
+
+			// Development additions
 			if( getSetting( "environment" ) eq "development" ){
 				prc.response.addMessage( "Detail: #e.detail#" )
 					.addMessage( "StackTrace: #e.stacktrace#" );
 			}
 		}
-		
+
 		// Development additions
 		if( getSetting( "environment" ) eq "development" ){
 			prc.response.addHeader( "x-current-route", event.getCurrentRoute() )
@@ -128,7 +143,7 @@ component extends="coldbox.system.EventHandler"{
 				responseData = prc.response.getDataPacket( reset=true );
 			}
 			// Magical renderings
-			event.renderData( 
+			event.renderData(
 				type			= prc.response.getFormat(),
 				data 			= responseData,
 				contentType 	= prc.response.getContentType(),
@@ -140,16 +155,16 @@ component extends="coldbox.system.EventHandler"{
 				jsonQueryFormat	= prc.response.getJsonQueryFormat()
 			);
 		}
-		 
+
 		// Global Response Headers
 		prc.response.addHeader( "x-response-time", prc.response.getResponseTime() )
 				.addHeader( "x-cached-response", prc.response.getCachedResponse() );
-		
+
 		// Response Headers
 		for( var thisHeader in prc.response.getHeaders() ){
 			event.setHTTPHeader( name=thisHeader.name, value=thisHeader.value );
 		}
-		
+
 		// If results detected, just return them, controllers requesting to return results
 		if( !isNull( actionResults ) ){
 			return actionResults;
@@ -157,21 +172,28 @@ component extends="coldbox.system.EventHandler"{
 	}
 
 	/**
-	* on localized errors
-	*/
-	function onError( event, rc, prc, faultAction, exception, eventArguments ){
+	 * on localized errors
+	 */
+	function onError(
+		event,
+		rc,
+		prc,
+		faultAction,
+		exception,
+		eventArguments
+	){
 		// Log Locally
-		log.error( 
-			"Error in base handler (#arguments.faultAction#): #arguments.exception.message# #arguments.exception.detail#", 
+		log.error(
+			"Error in base handler (#arguments.faultAction#): #arguments.exception.message# #arguments.exception.detail#",
 			{
-				"stack" : exception.stacktrace,
-				"httpData" : getHTTPRequestData()
-			} 
+				"_stacktrace" 	: arguments.exception.stacktrace,
+				"httpData" 		: getHTTPRequestData()
+			}
 		);
-		
+
 		// Verify response exists, else create one
-		if( !structKeyExists( prc, "Response" ) ){ 
-			prc.response = getModel( "Response@api" ); 
+		if( !structKeyExists( prc, "Response" ) ){
+			prc.response = getModel( "Response@api" );
 		}
 
 		// Setup General Error Response
@@ -180,17 +202,17 @@ component extends="coldbox.system.EventHandler"{
 			.addMessage( "Base Handler Application Error: #arguments.exception.message#" )
 			.setStatusCode( STATUS.INTERNAL_ERROR )
 			.setStatusText( "General application error" );
-		
+
 		// Development additions
 		if( getSetting( "environment" ) eq "development" ){
 			prc.response.addMessage( "Detail: #arguments.exception.detail#" )
 				.addMessage( "StackTrace: #arguments.exception.stacktrace#" );
 		}
-		
+
 		// If in development, then it will show full trace error template, else render data
 		if( getSetting( "environment" ) neq "development" ){
 			// Render Error Out
-			event.renderData( 
+			event.renderData(
 				type		= prc.response.getFormat(),
 				data 		= prc.response.getDataPacket( reset=true ),
 				contentType = prc.response.getContentType(),
@@ -203,19 +225,33 @@ component extends="coldbox.system.EventHandler"{
 	}
 
 	/**
-	* on invalid http verbs
-	*/
-	function onInvalidHTTPMethod( event, rc, prc, faultAction, eventArguments ){
+	 * on validation errors via cbValidation
+	 */
+	function onValidationException(
+		event,
+		rc,
+		prc,
+		eventArguments,
+		exception
+	){
 		// Log Locally
-		log.warn( "InvalidHTTPMethod Execution of (#arguments.faultAction#): #event.getHTTPMethod()#", getHTTPRequestData() );
+		if( log.canDebug() ){
+			log.debug(
+				"ValidationException Execution of (#arguments.event.getCurrentEvent()#)",
+				arguments.exception.extendedInfo
+			);
+		}
+
 		// Setup Response
 		prc.response = getModel( "Response@api" )
 			.setError( true )
-			.addMessage( "InvalidHTTPMethod Execution of (#arguments.faultAction#): #event.getHTTPMethod()#" )
-			.setStatusCode( STATUS.NOT_ALLOWED )
-			.setStatusText( "Invalid HTTP Method" );
+			.setData( deserializeJSON( arguments.exception.extendedInfo ) )
+			.addMessage( "Validation exceptions occurred, please see the data" )
+			.setStatusCode( STATUS.BAD_REQUEST )
+			.setStatusText( "Invalid Request" );
+
 		// Render Error Out
-		event.renderData( 
+		event.renderData(
 			type		= prc.response.getFormat(),
 			data 		= prc.response.getDataPacket( reset=true ),
 			contentType = prc.response.getContentType(),
@@ -227,19 +263,27 @@ component extends="coldbox.system.EventHandler"{
 	}
 
 	/**
-	* Invalid method execution
-	**/
-	function onMissingAction( event, rc, prc, missingAction, eventArguments ){
+	 * on invalid http verbs
+	 */
+	function onInvalidHTTPMethod(
+		event,
+		rc,
+		prc,
+		faultAction,
+		eventArguments
+	){
 		// Log Locally
-		log.warn( "Invalid HTTP Method Execution of (#arguments.missingAction#): #event.getHTTPMethod()#", getHTTPRequestData() );
+		log.warn( "InvalidHTTPMethod Execution of (#arguments.faultAction#): #event.getHTTPMethod()#", getHTTPRequestData() );
+
 		// Setup Response
 		prc.response = getModel( "Response@api" )
 			.setError( true )
-			.addMessage( "Action '#arguments.missingAction#' could not be found" )
+			.addMessage( "InvalidHTTPMethod Execution of (#arguments.faultAction#): #event.getHTTPMethod()#" )
 			.setStatusCode( STATUS.NOT_ALLOWED )
-			.setStatusText( "Invalid Action" );
+			.setStatusText( "Invalid HTTP Method" );
+
 		// Render Error Out
-		event.renderData( 
+		event.renderData(
 			type		= prc.response.getFormat(),
 			data 		= prc.response.getDataPacket( reset=true ),
 			contentType = prc.response.getContentType(),
@@ -247,16 +291,106 @@ component extends="coldbox.system.EventHandler"{
 			statusText 	= prc.response.getStatusText(),
 			location 	= prc.response.getLocation(),
 			isBinary 	= prc.response.getBinary()
-		);			
+		);
+	}
+
+	/**
+	 * When missing actions are executed
+	 */
+	function onMissingAction(
+		event,
+		rc,
+		prc,
+		missingAction,
+		eventArguments
+	){
+		// Setup Response
+		prc.response = getModel( "Response@api" )
+			.setError( true )
+			.addMessage( "Action '#arguments.missingAction#' could not be found" )
+			.setStatusCode( STATUS.NOT_ALLOWED )
+			.setStatusText( "Invalid Action" );
+
+		// Render Error Out
+		event.renderData(
+			type		= prc.response.getFormat(),
+			data 		= prc.response.getDataPacket( reset=true ),
+			contentType = prc.response.getContentType(),
+			statusCode 	= prc.response.getStatusCode(),
+			statusText 	= prc.response.getStatusText(),
+			location 	= prc.response.getLocation(),
+			isBinary 	= prc.response.getBinary()
+		);
+	}
+
+	/**
+	 * Executed on authentication failures
+	 */
+	function onAuthenticationFailure(
+		event 	= getRequestContext(),
+		rc 		= getRequestCollection(),
+		prc 	= getPrivateCollection(),
+		abort 	= false
+	){
+		if( !structKeyExists( prc, "Response" ) ){
+			prc.response = getModel( "Response@api" );
+		}
+
+		prc.response.setError( true )
+			.setStatusCode( STATUS.NOT_AUTHENTICATED )
+			.setStatusText( "Invalid or Missing Credentials" )
+			.addMessage( "Invalid or Missing Authentication Credentials" );
+	}
+
+	/**
+	 * Executed on authorization failures
+	 */
+	function onAuthorizationFailure(
+		event 	= getRequestContext(),
+		rc 		= getRequestCollection(),
+		prc 	= getPrivateCollection(),
+		abort 	= false
+	){
+		if( !structKeyExists( prc, "Response" ) ){
+			prc.response = getModel( "Response@api" );
+		}
+
+		prc.response.setError( true )
+			.setStatusCode( STATUS.NOT_AUTHORIZED )
+			.setStatusText( "Unauthorized Resource" )
+			.addMessage( "Your permissions do not allow this operation" );
+
+		/**
+		 * When you need a really hard stop to prevent further execution ( use as last resort )
+		 */
+		if( arguments.abort ){
+
+			event.setHTTPHeader(
+				name 	= "Content-Type",
+	        	value 	= "application/json"
+			);
+
+			event.setHTTPHeader(
+				statusCode = "#STATUS.NOT_AUTHORIZED#",
+	        	statusText = "Not Authorized"
+			);
+
+			writeOutput(
+				serializeJSON( prc.response.getDataPacket( reset=true ) )
+			);
+
+			flush;
+			abort;
+		}
 	}
 
 	/**************************** RESTFUL UTILITIES ************************/
 
 	/**
-	* Utility function for miscellaneous 404's
-	**/
+	 * Utility function for miscellaneous 404's
+	 */
 	private function routeNotFound( event, rc, prc ){
-		
+
 		if( !structKeyExists( prc, "Response" ) ){
 			prc.response = getModel( "Response@api" );
 		}
@@ -268,12 +402,12 @@ component extends="coldbox.system.EventHandler"{
 	}
 
 	/**
-	* Utility method for when an expectation of the request failes ( e.g. an expected paramter is not provided )
-	**/
-	private function onExpectationFailed( 
-		event 	= getRequestContext(), 
+	 * Utility method for when an expectation of the request failes ( e.g. an expected paramter is not provided )
+	 */
+	private function onExpectationFailed(
+		event 	= getRequestContext(),
 		rc 		= getRequestCollection(),
-		prc 	= getRequestCollection( private=true ) 
+		prc 	= getRequestCollection( private=true )
 	){
 		if( !structKeyExists( prc, "Response" ) ){
 			prc.response = getModel( "Response@api" );
@@ -282,71 +416,7 @@ component extends="coldbox.system.EventHandler"{
 		prc.response.setError( true )
 			.setStatusCode( STATUS.EXPECTATION_FAILED )
 			.setStatusText( "Expectation Failed" )
-			.addMessage( "An expectation for the request failed. Could not proceed" );		
-	}
-
-	/**
-	* Utility method to render missing or invalid authentication credentials
-	**/
-	private function onAuthenticationFailure( 
-		event 	= getRequestContext(), 
-		rc 		= getRequestCollection(),
-		prc 	= getRequestCollection( private=true ),
-		abort 	= false 
-	){
-		if( !structKeyExists( prc, "Response" ) ){
-			prc.response = getModel( "Response@api" );
-		}
-
-		log.warn( "Invalid Authentication", getHTTPRequestData() );
-
-		prc.response.setError( true )
-			.setStatusCode( STATUS.NOT_AUTHENTICATED )
-			.setStatusText( "Invalid or Missing Credentials" )
-			.addMessage( "Invalid or Missing Authentication Credentials" );
-	}
-
-	/**
-	* Utility method to render a failure of authorization on any resource
-	**/
-	private function onAuthorizationFailure( 
-		event 	= getRequestContext(), 
-		rc 		= getRequestCollection(),
-		prc 	= getRequestCollection( private=true ),
-		abort 	= false 
-	){
-		if( !structKeyExists( prc, "Response" ) ){
-			prc.response = getModel( "Response@api" );
-		}
-
-		log.warn( "Authorization Failure", getHTTPRequestData() );
-
-		prc.response.setError( true )
-			.setStatusCode( STATUS.NOT_AUTHORIZED )
-			.setStatusText( "Unauthorized Resource" )
-			.addMessage( "Your permissions do not allow this operation" );
-
-		/**
-		* When you need a really hard stop to prevent further execution ( use as last resort )
-		**/
-		if( arguments.abort ){
-
-			event.setHTTPHeader( 
-				name 	= "Content-Type",
-	        	value 	= "application/json"
-			);
-
-			event.setHTTPHeader( 
-				statusCode = "#STATUS.NOT_AUTHORIZED#",
-	        	statusText = "Not Authorized"
-			);
-			
-			writeOutput( 
-				serializeJSON( prc.response.getDataPacket( reset=true ) ) 
-			);
-			flush;
-			abort;
-		}
+			.addMessage( "An expectation for the request failed. Could not proceed" );
 	}
 
 }

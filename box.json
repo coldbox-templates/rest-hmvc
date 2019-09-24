@@ -18,7 +18,10 @@
     "ignore":[],
     "devDependencies":{
         "relax":"^3.1.0",
-        "testbox":"^3.0.0"
+		"testbox":"^3.0.0",
+		"commandbox-dotenv":"*",
+        "commandbox-cfconfig":"*",
+        "commandbox-cfformat":"*"
     },
     "installPaths":{
         "coldbox":"coldbox",
@@ -30,6 +33,9 @@
     },
     "scripts":{
         "postVersion":"package set location='https://github.com/coldbox-templates/rest-hmvc/archive/v`package version`.zip'",
-        "postPublish":"!git push --follow-tags"
+		"postPublish":"!git push --follow-tags",
+		"postInstall":"pathExists .env || cp .env.example .env",
+		"format":"cfformat config/**/*.cfc,handlers/**/*.cfc,interceptors/**/*.cfc,models/**/*.cfc,modules_app/**/*.cfc,tests/specs/**/*.cfc,*.cfc --overwrite",
+        "format:check":"cfformat config/**/*.cfc,handlers/**/*.cfc,interceptors/**/*.cfc,models/**/*.cfc,modules_app/**/*.cfc,tests/specs/**/*.cfc,*.cfc --check"
     }
 }

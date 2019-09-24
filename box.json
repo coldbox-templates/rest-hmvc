@@ -1,7 +1,7 @@
 {
     "name":"REST HMVC Template",
-    "version":"1.21.0",
-    "location":"https://github.com/coldbox-templates/rest-hmvc/archive/v1.21.0.zip",
+    "version":"1.22.0",
+    "location":"https://github.com/coldbox-templates/rest-hmvc/archive/v1.22.0.zip",
     "author":"You",
     "slug":"cbtemplate-rest-hmvc",
     "createPackageDirectory":false,
@@ -18,8 +18,8 @@
     "ignore":[],
     "devDependencies":{
         "relax":"^3.1.0",
-		"testbox":"^3.0.0",
-		"commandbox-dotenv":"*",
+        "testbox":"^3.0.0",
+        "commandbox-dotenv":"*",
         "commandbox-cfconfig":"*",
         "commandbox-cfformat":"*"
     },
@@ -29,14 +29,14 @@
         "testbox":"testbox"
     },
     "dependencies":{
-		"coldbox":"^5.0.0",
-		"cbswagger":"^2.0.0"
+        "coldbox":"^5.0.0",
+        "cbswagger":"^2.0.0"
     },
     "scripts":{
         "postVersion":"package set location='https://github.com/coldbox-templates/rest-hmvc/archive/v`package version`.zip'",
-		"postPublish":"!git push --follow-tags",
-		"postInstall":"pathExists .env || cp .env.example .env",
-		"format":"cfformat config/**/*.cfc,handlers/**/*.cfc,interceptors/**/*.cfc,models/**/*.cfc,modules_app/**/*.cfc,tests/specs/**/*.cfc,*.cfc --overwrite",
+        "postPublish":"!git push --follow-tags",
+        "postInstall":"pathExists .env || cp .env.example .env",
+        "format":"cfformat config/**/*.cfc,handlers/**/*.cfc,interceptors/**/*.cfc,models/**/*.cfc,modules_app/**/*.cfc,tests/specs/**/*.cfc,*.cfc --overwrite",
         "format:check":"cfformat config/**/*.cfc,handlers/**/*.cfc,interceptors/**/*.cfc,models/**/*.cfc,modules_app/**/*.cfc,tests/specs/**/*.cfc,*.cfc --check"
     }
 }

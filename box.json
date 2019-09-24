@@ -29,7 +29,8 @@
         "testbox":"testbox"
     },
     "dependencies":{
-        "coldbox":"^5.0.0"
+		"coldbox":"^5.0.0",
+		"cbswagger":"^2.0.0"
     },
     "scripts":{
         "postVersion":"package set location='https://github.com/coldbox-templates/rest-hmvc/archive/v`package version`.zip'",

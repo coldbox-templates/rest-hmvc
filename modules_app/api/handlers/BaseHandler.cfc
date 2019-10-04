@@ -340,6 +340,11 @@ component extends="coldbox.system.EventHandler"{
 			.setStatusCode( STATUS.NOT_AUTHENTICATED )
 			.setStatusText( "Invalid or Missing Credentials" )
 			.addMessage( "Invalid or Missing Authentication Credentials" );
+
+		// Check for validator results
+		if( !isNull( prc.cbSecurity_validatorResults ) ){
+			prc.response.addMessage( prc.cbSecurity_validatorResults.messages );
+		}
 	}
 
 	/**
@@ -359,6 +364,11 @@ component extends="coldbox.system.EventHandler"{
 			.setStatusCode( STATUS.NOT_AUTHORIZED )
 			.setStatusText( "Unauthorized Resource" )
 			.addMessage( "Your permissions do not allow this operation" );
+
+		// Check for validator results
+		if( !isNull( prc.cbSecurity_validatorResults ) ){
+			prc.response.addMessage( prc.cbSecurity_validatorResults.messages );
+		}
 
 		/**
 		 * When you need a really hard stop to prevent further execution ( use as last resort )

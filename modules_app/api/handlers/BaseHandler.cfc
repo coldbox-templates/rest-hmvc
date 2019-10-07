@@ -336,15 +336,22 @@ component extends="coldbox.system.EventHandler"{
 			prc.response = getModel( "Response@api" );
 		}
 
+		// case when the a jwt token was valid, but expired
+        if(
+            !isNull( prc.cbSecurity_validatorResults ) &&
+            prc.cbSecurity_validatorResults.messages CONTAINS "expired"
+        ){
+            prc.response.setError( true )
+                .setStatusCode( STATUS.NOT_AUTHENTICATED )
+                .setStatusText( "Expired Authentication Credentials" )
+                .addMessage( "Expired Authentication Credentials" );
+            return;
+        }
+
 		prc.response.setError( true )
 			.setStatusCode( STATUS.NOT_AUTHENTICATED )
 			.setStatusText( "Invalid or Missing Credentials" )
 			.addMessage( "Invalid or Missing Authentication Credentials" );
-
-		// Check for validator results
-		if( !isNull( prc.cbSecurity_validatorResults ) ){
-			prc.response.addMessage( prc.cbSecurity_validatorResults.messages );
-		}
 	}
 
 	/**

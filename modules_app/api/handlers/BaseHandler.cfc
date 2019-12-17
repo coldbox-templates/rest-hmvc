@@ -95,6 +95,11 @@ component extends="coldbox.system.EventHandler"{
 			arguments.exception = e;
 			this.onValidationException( argumentCollection=arguments );
 		}
+		// Entity Not Found Exceptions
+		catch( "EntityNotFound" e ){
+			arguments.exception = e;
+			this.onEntityNotFoundException( argumentCollection=arguments );
+		}
 		catch( Any e ){
 			// Log Locally
 			log.error(
@@ -249,6 +254,44 @@ component extends="coldbox.system.EventHandler"{
 			.addMessage( "Validation exceptions occurred, please see the data" )
 			.setStatusCode( STATUS.BAD_REQUEST )
 			.setStatusText( "Invalid Request" );
+
+		// Render Error Out
+		event.renderData(
+			type		= prc.response.getFormat(),
+			data 		= prc.response.getDataPacket( reset=true ),
+			contentType = prc.response.getContentType(),
+			statusCode 	= prc.response.getStatusCode(),
+			statusText 	= prc.response.getStatusText(),
+			location 	= prc.response.getLocation(),
+			isBinary 	= prc.response.getBinary()
+		);
+	}
+
+	/**
+	 * on entity not found exception
+	 */
+	function onEntityNotFoundException(
+		event,
+		rc,
+		prc,
+		eventArguments,
+		exception
+	){
+		// Log Locally
+		if( log.canDebug() ){
+			log.debug(
+				"Record not found in execution of (#arguments.event.getCurrentEvent()#)",
+				arguments.exception.extendedInfo
+			);
+		}
+
+		// Setup Response
+		prc.response = getModel( "Response@api" )
+			.setError( true )
+			.setData( rc.id ?: "" )
+			.addMessage( "The record you requested cannot be found in this system" )
+			.setStatusCode( STATUS.NOT_FOUND )
+			.setStatusText( "Not Found" );
 
 		// Render Error Out
 		event.renderData(

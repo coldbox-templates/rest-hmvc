@@ -1,10 +1,9 @@
-component{
+component {
 
-    function configure(){
+	function configure() {
+		route( "/", "echo.index" );
 
-        route( "/", "echo.index" );
-        
-        route( "/:handler/:action" ).end();
-    }
+		route( "/:handler/:action" ).end();
+	}
 
 }

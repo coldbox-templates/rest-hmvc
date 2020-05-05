@@ -1,7 +1,6 @@
-component{
+component {
 
-    function configure(){
-
-    }
+	function configure() {
+	}
 
 }

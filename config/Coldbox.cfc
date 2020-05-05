@@ -1,5 +1,4 @@
-﻿component {
-
+﻿component{
 	/**
 	 * Configure the ColdBox App For Production
 	 */
@@ -175,5 +174,4 @@
 		// coldbox.customErrorTemplate = "/coldbox/system/includes/BugReport.cfm"; // static bug reports
 		coldbox.customErrorTemplate = "/coldbox/system/includes/Whoops.cfm"; // interactive bug report
 	}
-
 }

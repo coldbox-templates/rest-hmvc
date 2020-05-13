@@ -10,9 +10,9 @@ component extends="coldbox.system.RestHandler" {
 	 * Login a user into the application
 	 *
 	 * @x-route (POST) /api/v1/login
-	 * @requestBody ~auth/login/requestBody.json
-	 * @response-default ~auth/login/responses.json##200
-	 * @response-401 ~auth/login/responses.json##401
+	 * @requestBody ~api/v1/auth/login/requestBody.json
+	 * @response-default ~api/v1/auth/login/responses.json##200
+	 * @response-401 ~api/v1/auth/login/responses.json##401
 	 */
 	function login( event, rc, prc ) {
 		param rc.email    = "";
@@ -30,9 +30,9 @@ component extends="coldbox.system.RestHandler" {
 	 * Register a new user in the system
 	 *
 	 * @x-route (POST) /api/v1/register
-	 * @requestBody ~auth/register/requestBody.json
-	 * @response-default ~auth/register/responses.json##200
-	 * @response-400 ~auth/register/responses.json##400
+	 * @requestBody ~api/v1/auth/register/requestBody.json
+	 * @response-default ~api/v1/auth/register/responses.json##200
+	 * @response-400 ~api/v1/auth/register/responses.json##400
 	 */
 	function register( event, rc, prc ) {
 		param rc.fname    = "";
@@ -60,8 +60,8 @@ component extends="coldbox.system.RestHandler" {
 	 *
 	 * @x-route (POST) /api/v1/logout
 	 * @security bearerAuth,ApiKeyAuth
-	 * @response-default ~auth/logout/responses.json##200
-	 * @response-500 ~auth/logout/responses.json##500
+	 * @response-default ~api/v1/auth/logout/responses.json##200
+	 * @response-500 ~api/v1/auth/logout/responses.json##500
 	 */
 	function logout( event, rc, prc ) {
 		jwtAuth().logout();

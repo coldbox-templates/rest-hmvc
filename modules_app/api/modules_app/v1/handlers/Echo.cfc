@@ -18,7 +18,7 @@ component extends="coldbox.system.RestHandler" {
 	 * Say Hello
 	 *
 	 * @x-route (GET) /api/v1/echo
-	 * @response-default ~echo/index/responses.json##200
+	 * @response-default ~api/v1/echo/index/responses.json##200
 	 */
 	function index( event, rc, prc ) {
 		event.getResponse().setData( "Welcome to my ColdBox RESTFul Service" );
@@ -30,8 +30,8 @@ component extends="coldbox.system.RestHandler" {
 	 *
 	 * @route (GET) /api/v1/whoami
 	 * @security bearerAuth,ApiKeyAuth
-	 * @response-default ~echo/whoami/responses.json##200
-	 * @response-401 ~echo/whoami/responses.json##401
+	 * @response-default ~api/v1/echo/whoami/responses.json##200
+	 * @response-401 ~api/v1/echo/whoami/responses.json##401
 	 */
 	function whoami( event, rc, prc ) secured {
 		event.getResponse().setData( jwtAuth().getUser().getMemento() );

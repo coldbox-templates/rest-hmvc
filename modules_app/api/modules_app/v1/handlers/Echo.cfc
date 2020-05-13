@@ -1,7 +1,7 @@
 /**
- * My RESTFul Event Handler which inherits from the module `api`
+ * My RESTFul Event Handler
  */
-component extends="coldbox.system.Resthandler" {
+component extends="coldbox.system.RestHandler" {
 
 	// OPTIONAL HANDLER PROPERTIES
 	this.prehandler_only      = "";
@@ -15,10 +15,26 @@ component extends="coldbox.system.Resthandler" {
 	this.allowedMethods = {};
 
 	/**
-	 * Index
+	 * Say Hello
+	 *
+	 * @x-route (GET) /api/v1/echo
+	 * @response-default ~echo/index/responses.json##200
 	 */
-	any function index( event, rc, prc ) {
+	function index( event, rc, prc ) {
 		event.getResponse().setData( "Welcome to my ColdBox RESTFul Service" );
+	}
+
+
+	/**
+	 * A secured route that shows you your information
+	 *
+	 * @route (GET) /api/v1/whoami
+	 * @security bearerAuth,ApiKeyAuth
+	 * @response-default ~echo/whoami/responses.json##200
+	 * @response-401 ~echo/whoami/responses.json##401
+	 */
+	function whoami( event, rc, prc ) secured {
+		event.getResponse().setData( jwtAuth().getUser().getMemento() );
 	}
 
 }

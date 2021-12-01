@@ -85,7 +85,7 @@
 				<fieldset>
 					<legend>Contents: #executePath#</legend>
 					<cfif url.path neq "/">
-						<a href="index.cfm?path=#URLEncodedFormat( backPath )#"><button type="button" class="btn btn-secondary btn-sm my-1">« Back</button></a><br><hr>
+						<a href="index.cfm?path=#URLEncodedFormat( backPath )#"><button type="button" class="btn btn-secondary btn-sm my-1">&##xAB; Back</button></a><br><hr>
 					</cfif>
 					<cfloop query="qResults">
 						<cfif refind( "^\.", qResults.name )>
@@ -94,7 +94,7 @@
 
 						<cfset dirPath = URLEncodedFormat( ( url.path neq '/' ? '#url.path#/' : '/' ) & qResults.name )>
 						<cfif qResults.type eq "Dir">
-							<a class="btn btn-secondary btn-sm my-1" href="index.cfm?path=#dirPath#">✚ #qResults.name#</a><br/>
+							<a class="btn btn-secondary btn-sm my-1" href="index.cfm?path=#dirPath#">&##x271A; #qResults.name#</a><br/>
 						<cfelseif listLast( qresults.name, ".") eq "cfm">
 							<a class="btn btn-primary btn-sm my-1" href="#executePath & qResults.name#" <cfif !url.cpu>target="_blank"</cfif>>#qResults.name#</a><br/>
 						<cfelseif listLast( qresults.name, ".") eq "cfc" and qresults.name neq "Application.cfc">

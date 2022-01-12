@@ -63,7 +63,7 @@ component extends="coldbox.system.RestHandler" {
 	 * @response-default ~api/v1/auth/logout/responses.json##200
 	 * @response-500 ~api/v1/auth/logout/responses.json##500
 	 */
-	function logout( event, rc, prc ) {
+	function logout( event, rc, prc ) secured {
 		jwtAuth().logout();
 		event.getResponse().addMessage( "Successfully logged out" )
 	}

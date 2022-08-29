@@ -80,7 +80,7 @@ component
 				var event    = this.request( "/api/v1/echo/bogus" );
 				var response = event.getPrivateValue( "response" );
 				expect( response.getError() ).tobeTrue();
-				expect( response.getStatusCode() ).toBe( 405 );
+				expect( response.getStatusCode() ).toBe( 404 );
 			} );
 		} );
 	}

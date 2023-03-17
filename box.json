@@ -36,9 +36,9 @@
     },
     "dependencies":{
         "coldbox":"^6.0.0",
-        "cbsecurity":"^2.5.0+94",
-        "mementifier":"^2.1.0+100",
-        "cbvalidation":"^2.1.0+126"
+        "cbsecurity":"^3.0.0",
+        "mementifier":"^3.3.0",
+        "cbvalidation":"^4.1.0"
     },
     "scripts":{
         "postPublish":"!git push --follow-tags",

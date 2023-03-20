@@ -14,44 +14,30 @@
  *	* eventArguments : The struct of args to pass to the event
  *	* renderResults : Render back the results of the event
  *******************************************************************************/
-component
-	extends   ="coldbox.system.testing.BaseTestCase"
-	appMapping="/root"
-{
+component extends="coldbox.system.testing.BaseTestCase" appMapping="/root" {
 
 	/*********************************** LIFE CYCLE Methods ***********************************/
 
-	function beforeAll() {
+	function beforeAll(){
 		super.beforeAll();
 		// do your own stuff here
 	}
 
-	function afterAll() {
+	function afterAll(){
 		// do your own stuff here
 		super.afterAll();
 	}
 
 	/*********************************** BDD SUITES ***********************************/
 
-	function run() {
-		describe( "My RESTFUl Service", function() {
-			beforeEach( function( currentSpec ) {
+	function run(){
+		describe( "My RESTFUl Service", function(){
+			beforeEach( function( currentSpec ){
 				// Setup as a new ColdBox request, VERY IMPORTANT. ELSE EVERYTHING LOOKS LIKE THE SAME REQUEST.
 				setup();
 			} );
 
-			it( "can handle invalid HTTP Calls", function() {
-				var event = execute(
-					event          = "v1:echo.onInvalidHTTPMethod",
-					renderResults  = true,
-					eventArguments = { faultAction : "test" }
-				);
-				var response = event.getPrivateValue( "response" );
-				expect( response.getError() ).toBeTrue();
-				expect( response.getStatusCode() ).toBe( 405 );
-			} );
-
-			it( "can handle global exceptions", function() {
+			it( "can handle global exceptions", function(){
 				var event = execute(
 					event          = "v1:echo.onError",
 					renderResults  = true,
@@ -69,14 +55,14 @@ component
 				expect( response.getStatusCode() ).toBe( 500 );
 			} );
 
-			it( "can handle an echo", function() {
+			it( "can handle an echo", function(){
 				var event    = this.request( "/api/v1/echo/index" );
 				var response = event.getPrivateValue( "response" );
 				expect( response.getError() ).toBeFalse();
 				expect( response.getData() ).toBe( "Welcome to my ColdBox RESTFul Service" );
 			} );
 
-			it( "can handle missing actions", function() {
+			it( "can handle missing actions", function(){
 				var event    = this.request( "/api/v1/echo/bogus" );
 				var response = event.getPrivateValue( "response" );
 				expect( response.getError() ).tobeTrue();

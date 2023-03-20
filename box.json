@@ -17,7 +17,7 @@
     "contributors":[],
     "ignore":[],
     "devDependencies":{
-        "testbox":"^4.0.0",
+        "testbox":"be",
         "relax":"^4.1.0",
         "route-visualizer":"*",
         "commandbox-dotenv":"*",
@@ -35,7 +35,7 @@
         "cbsecurity":"modules/cbsecurity/"
     },
     "dependencies":{
-        "coldbox":"^6.0.0",
+        "coldbox":"be",
         "cbsecurity":"^3.0.0",
         "mementifier":"^3.3.0",
         "cbvalidation":"^4.1.0"

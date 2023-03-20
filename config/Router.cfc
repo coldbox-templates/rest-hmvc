@@ -27,7 +27,9 @@ component {
 			return "Ok!";
 		} );
 
-		// Conventions based routing
+		// @app_routes@
+
+		// Conventions-Based Routing
 		route( ":handler/:action?" ).end();
 	}
 

@@ -65,7 +65,7 @@ component {
 	// Module Dependencies
 	this.dependencies       = [];
 
-	function configure() {
+	function configure(){
 		// parent settings
 		parentSettings = {};
 
@@ -90,13 +90,13 @@ component {
 	/**
 	 * Fired when the module is registered and activated.
 	 */
-	function onLoad() {
+	function onLoad(){
 	}
 
 	/**
 	 * Fired when the module is unregistered and unloaded
 	 */
-	function onUnload() {
+	function onUnload(){
 	}
 
 }

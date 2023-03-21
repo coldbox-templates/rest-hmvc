@@ -1,6 +1,6 @@
 component {
 
-	function configure() {
+	function configure(){
 		// API Echo
 		get( "/", "Echo.index" );
 

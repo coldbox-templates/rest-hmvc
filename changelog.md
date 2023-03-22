@@ -9,9 +9,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [6.17.0] - 2023-03-22
+
 ### Regression
 
-- Reverted the `lib/vendor` convention as this is on cb7 not cb6.
+-   Reverted the `lib/vendor` convention as this is on cb7 not cb6.
 
 ## [6.16.0] - 2023-03-21
 
@@ -34,6 +36,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 -   Cleanup of `tests` to new standards
 -   Added routing conventions to make it easier for the cli to add routes.
 
-[Unreleased]: https://github.com/coldbox-templates/rest-hmvc/compare/v6.16.0...HEAD
+[Unreleased]: https://github.com/coldbox-templates/rest-hmvc/compare/v6.17.0...HEAD
+
+[6.17.0]: https://github.com/coldbox-templates/rest-hmvc/compare/v6.16.0...v6.17.0
 
 [6.16.0]: https://github.com/coldbox-templates/rest-hmvc/compare/ad32c3eaaf23169842c1fd803529f42d21ff2139...v6.16.0

@@ -1,0 +1,13 @@
+name: Build Snapshot
+
+on:
+  push:
+    branches:
+      - 'development'
+
+jobs:
+  call-workflow:
+    uses: ./.github/workflows/release.yml
+    with:
+      doTests: true
+      snapshot: true

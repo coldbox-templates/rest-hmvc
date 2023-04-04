@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - 'development'
+      - 'v7.x'
 
 jobs:
   call-workflow:

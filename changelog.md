@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [6.20.0] - 2023-05-13
+
 ## [6.19.0] - 2023-04-18
 
 ## [6.18.0] - 2023-03-23
@@ -42,7 +44,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 -   Cleanup of `tests` to new standards
 -   Added routing conventions to make it easier for the cli to add routes.
 
-[Unreleased]: https://github.com/coldbox-templates/rest-hmvc/compare/v6.19.0...HEAD
+[Unreleased]: https://github.com/coldbox-templates/rest-hmvc/compare/v6.20.0...HEAD
+
+[6.20.0]: https://github.com/coldbox-templates/rest-hmvc/compare/v6.19.0...v6.20.0
 
 [6.19.0]: https://github.com/coldbox-templates/rest-hmvc/compare/v6.18.0...v6.19.0
 

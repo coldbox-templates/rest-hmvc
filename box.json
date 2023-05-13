@@ -15,9 +15,12 @@
     "bugs":"https://github.com/coldbox-templates/rest-hmvc/issues",
     "shortDescription":"A modular API RESTFul template",
     "contributors":[],
-    "ignore":[],
+    "ignore":[
+		"changelog.md",
+        ".github/**"
+	],
     "devDependencies":{
-        "testbox":"^4.0.0",
+        "testbox":"^5.0.0",
         "relax":"^4.1.0",
         "route-visualizer":"*",
         "commandbox-dotenv":"*",

@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ----
 
+## [Unreleased]
+
 ## [6.15.0] => 2023-MAR-20
 
 ### Added
@@ -19,3 +21,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * vscode introspection and helpers
 * Docker build and compose consolidation to the `build` folder
 * Cleanup of `tests` to new standards
+* Added routing conventions to make it easier for the cli to add routes.

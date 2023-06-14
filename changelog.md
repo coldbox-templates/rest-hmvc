@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [7.3.0] - 2023-06-14
+
 ### Added
 
 - Vscode mappings for cbsecurity
@@ -40,6 +42,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Cleanup of `tests` to new standards
 - Added routing conventions to make it easier for the cli to add routes.
 
-[Unreleased]: https://github.com/coldbox-templates/rest-hmvc/compare/v7.2.0...HEAD
+[Unreleased]: https://github.com/coldbox-templates/rest-hmvc/compare/v7.3.0...HEAD
 
-[7.2.0]: https://github.com/coldbox-templates/rest-hmvc/compare/v7.0.0...v7.2.0
+[7.3.0]: https://github.com/coldbox-templates/rest-hmvc/compare/d9eb531a5efc9aa3d92fce4736f643d1cde16c0a...v7.3.0

@@ -9,6 +9,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Vscode mappings for cbsecurity
+- Tons of inline docs for module configurations so newbies can find what they need
+- Leveraging the auth `User` of the `cbsecurity` module, so we can reuse what's already been built.
+
+### Fixed
+
+- Gitignore updates so it doesn't ignore 'config/modules'
+
 ## [7.2.0] - 2023-05-19
 
 ### Fixed
@@ -29,8 +39,3 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Docker build and compose consolidation to the `build` folder
 - Cleanup of `tests` to new standards
 - Added routing conventions to make it easier for the cli to add routes.
-
-[Unreleased]: https://github.com/coldbox-templates/rest-hmvc/compare/v7.2.0...HEAD
-
-[7.2.0]: https://github.com/coldbox-templates/rest-hmvc/compare/v7.0.0...v7.2.0
-

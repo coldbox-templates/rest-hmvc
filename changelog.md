@@ -13,6 +13,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Mementifier config additions were missing
+- Updated to use latest dev dependencies
+
+## [7.3.0] - 2023-06-14
+
+### Added
+
 - Vscode mappings for cbsecurity
 - Tons of inline docs for module configurations so newbies can find what they need
 - Leveraging the auth `User` of the `cbsecurity` module, so we can reuse what's already been built.

@@ -17,7 +17,7 @@ jobs:
         include:
           - cfengine: "boxlang"
             jdkVersion: "21"
-            engineModules: bx-compat-cfml,bx-esapi
+            engineModules: commandbox-boxlang,bx-compat-cfml,bx-esapi
           - cfengine: "lucee@5"
             jdkVersion: "11"
             engineModules:
@@ -66,9 +66,8 @@ jobs:
       - name: Install Dependencies
         run: |
           box install
-          // If modules are not empty
           if [ -n "${{ matrix.engineModules }}" ]; then
-            box install ${{ matrix.engineModules }}
+            echo "Installing Engine Modules: ${{ matrix.engineModules }}"
           fi
 
       - name: Start ${{ matrix.cfengine }} Server

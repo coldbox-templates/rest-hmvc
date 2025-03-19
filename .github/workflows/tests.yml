@@ -17,7 +17,7 @@ jobs:
         include:
           - cfengine: "boxlang"
             jdkVersion: "21"
-            engineModules: "commandbox-boxlang,bx-compat-cfml,bx-esapi"
+            engineModules: "bx-compat-cfml,bx-esapi"
           - cfengine: "lucee@5"
             jdkVersion: "11"
             engineModules:
@@ -66,15 +66,15 @@ jobs:
       - name: Install Dependencies
         run: |
           box install
-          if [ -n "${{ matrix.engineModules }}" ]; then
-            echo "Installing Engine Modules: ${{ matrix.engineModules }}"
-            box install ${{ matrix.engineModules }}
-          fi
 
       - name: Start ${{ matrix.cfengine }} Server
         run: |
           box server set web.http.port=${{ env.WEB_PORT }}
           box server set app.cfengine=${{ matrix.cfengine }}
+          if [ -n "${{ matrix.engineModules }}" ]; then
+            echo "Installing Engine Modules: ${{ matrix.engineModules }}"
+            box server set scripts.onServerInitialInstall="install ${{ matrix.engineModules }}"
+          fi
           box server start --debug
           curl http://127.0.0.1:${{ env.WEB_PORT }}
 

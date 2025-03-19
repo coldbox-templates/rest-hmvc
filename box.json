@@ -20,8 +20,7 @@
         "testbox":"^5.0.0",
         "relax":"*",
         "route-visualizer":"*",
-        "commandbox-dotenv":"*",
-        "commandbox-cfconfig":"*",
+        "commandbox-boxlang":"*",
         "commandbox-cfformat":"*"
     },
     "dependencies":{

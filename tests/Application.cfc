@@ -26,7 +26,7 @@ component {
 	this.mappings[ "/tests" ]   = getDirectoryFromPath( getCurrentTemplatePath() );
 	// The root application mapping
 	rootPath                    = reReplaceNoCase( this.mappings[ "/tests" ], "tests(\\|/)", "" );
-	this.mappings[ "/app" ]    = this.mappings[ "/cbapp" ] = rootPath;
+	this.mappings[ "/app" ]    = this.mappings[ "/app" ] = rootPath;
 	this.mappings[ "/coldbox" ] = rootPath & "coldbox";
 	this.mappings[ "/testbox" ] = rootPath & "testbox";
 

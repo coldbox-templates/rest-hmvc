@@ -28,7 +28,7 @@ component {
 	 * Modify only if you need to, else default them: https://cfdocs.org/application-cfc
 	 */
 	this.javaSettings = {
-		loadPaths               : [ expandPath( "./lib/java" ) ],
+		loadPaths               : [ expandPath( "./lib" ) ],
 		loadColdFusionClassPath : true,
 		reloadOnChange          : false
 	};

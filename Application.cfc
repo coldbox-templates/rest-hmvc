@@ -28,7 +28,7 @@ component {
 	 * Modify only if you need to, else default them: https://cfdocs.org/application-cfc
 	 */
 	this.javaSettings = {
-		loadPaths               : [ expandPath( "./lib/java" ) ],
+		loadPaths               : [ expandPath( "./lib" ) ],
 		loadColdFusionClassPath : true,
 		reloadOnChange          : false
 	};
@@ -58,7 +58,7 @@ component {
 	 * - cbApp : Quick reference to root application
 	 * - coldbox : Where ColdBox library is installed
 	 */
-	this.mappings[ "/cbapp" ]   = COLDBOX_APP_ROOT_PATH;
+	this.mappings[ "/app" ]     = COLDBOX_APP_ROOT_PATH;
 	this.mappings[ "/coldbox" ] = COLDBOX_APP_ROOT_PATH & "coldbox";
 
 	/**

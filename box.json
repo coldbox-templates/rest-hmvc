@@ -1,6 +1,6 @@
 {
     "name":"REST HMVC Template",
-    "version":"8.0.0",
+    "version":"8.1.0",
     "location":"forgeboxStorage",
     "author":"You",
     "slug":"cbtemplate-rest-hmvc",
@@ -16,13 +16,13 @@
     "shortDescription":"A modular API RESTFul template",
     "contributors":[],
     "ignore":[
-		"changelog.md",
-		".github/ISSUE_TEMPLATE",
-		".github/workflows/*",
-		".github/CONTRIBUTING.md",
-		".github/FUNDING.YML",
-		".github/PULL_REQUEST_TEMPLATE.md"
-	],
+        "changelog.md",
+        ".github/ISSUE_TEMPLATE",
+        ".github/workflows/*",
+        ".github/CONTRIBUTING.md",
+        ".github/FUNDING.YML",
+        ".github/PULL_REQUEST_TEMPLATE.md"
+    ],
     "devDependencies":{
         "testbox":"^6.0.0",
         "relax":"*",
